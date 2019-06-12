@@ -75,9 +75,7 @@ typealias BiFunction<A, B, C> = (A, B) -> C
   Create function called `tuple` that takes a (A, B) -> C as an argument and
   returns a (Pair<A, B>) -> C as a result
  */
-fun <A, B, C> tuple(function: (A, B) -> C): (Pair<A, B>) -> C {
-    TODO("Exercise 4 tuple is missing!")
-}
+fun <A, B, C> tuple(function: (A, B) -> C): (Pair<A, B>) -> C = { p -> function(p.first, p.second) }
 
 /*
   Part 3:
@@ -85,9 +83,7 @@ fun <A, B, C> tuple(function: (A, B) -> C): (Pair<A, B>) -> C {
   Create function called `unTuple` that takes a (Pair<A, B>) -> C that has a
   Pair as the argument and returns a (A, B) -> C as a result.
  */
-fun <A, B, C> unTuple(function: (Pair<A, B>) -> C): (A, B) -> C {
-    TODO("Exercise 4 unTuple is missing!")
-}
+fun <A, B, C> unTuple(function: (Pair<A, B>) -> C): (A, B) -> C = { a, b -> function(Pair(a,b))}
 
 /*
       Part 4:
@@ -111,13 +107,13 @@ internal object TupleExample {
     @JvmStatic
     fun main(args: Array<String>) {
         val addPrefixT: (Pair<String, String>) -> String = {
-            TODO("Exercise 4 addPrefixT is missing!")
+            tuple(addPrefixUT)(it)
         }
 
         println(addPrefixT(Pair("https://", "nozama.com")))
 
-        val addIntsUT: (Int, Int) -> Int = { _, _ ->
-            TODO("Exercise 4 addIntsUT is missing!")
+        val addIntsUT: (Int, Int) -> Int = { a, b ->
+            unTuple(addIntsT)(a, b)
         }
 
         println(addIntsUT(42, 0))
@@ -171,8 +167,11 @@ val strPlusInt2: (String) -> (Int) -> String = { string ->
   Create function called `curry` that takes a (A, B) -> C as an argument and
   returns its curried representation.
 */
-fun <A, B, C> curry(function: (A, B) -> C): (A) -> (B) -> C {
-    TODO("Exercise 4 curry is missing!")
+fun <A, B, C> curry(function: (A, B) -> C): (A) -> (B) -> C = { a ->
+    { b ->
+        function(a, b)
+    }
+
 }
 
 /*
@@ -181,9 +180,7 @@ fun <A, B, C> curry(function: (A, B) -> C): (A) -> (B) -> C {
   Create function called `uncurry` that takes a curried two argument function
   and returns its (A, B) -> C representation.
  */
-fun <A, B, C> unCurry(function: (A) -> (B) -> C): (A, B) -> C {
-    TODO("Exercise 4 unCurry is missing!")
-}
+fun <A, B, C> unCurry(function: (A) -> (B) -> C): (A, B) -> C = { a, b -> function(a)(b) }
 
 /*
       Part 7:
@@ -200,14 +197,12 @@ internal object CurryExample {
     fun main(args: Array<String>) {
         // curried
         // simple int multiplication
-        val multiplyC: (Int) -> (Int) -> Int = {
-            TODO("Exercise 4 multiplyC is missing!")
+        val multiplyC: (Int) -> (Int) -> Int = { a ->
+            { b -> a * b }
         }
 
         // use `uncurry` function to solve this
-        val multiplyUC: (Int, Int) -> Int = { _, _ ->
-            TODO("Exercise 4 multiplyUC is missing!")
-        }
+        val multiplyUC: (Int, Int) -> Int = unCurry(multiplyC)
 
         println(multiplyUC(42, 1))
 
@@ -221,9 +216,7 @@ internal object CurryExample {
             result.toString()
         }
 
-        val replicateC: (Int) -> (String) -> String = {
-            TODO("Exercise 4 replicateC is missing")
-        }
+        val replicateC: (Int) -> (String) -> String = curry(replicateUC)
 
         println(replicateC(42)("JUG"))
     }
@@ -242,9 +235,7 @@ internal object CurryExample {
   Example:
   (A, B) -> C after flip becomes a (B, A) -> C
  */
-fun <A, B, C> flip(function: (A, B) -> C): (B, A) -> C {
-    TODO("Exercise 4 flip is missing!")
-}
+fun <A, B, C> flip(function: (A, B) -> C): (B, A) -> C = { a, b -> function(b, a) }
 
 /*
   Part 9:
@@ -253,9 +244,7 @@ fun <A, B, C> flip(function: (A, B) -> C): (B, A) -> C {
   and returns another (Pair<B, A>) -> C with a pair argument, this time the order of
   arguments in the pair should be switched.
  */
-fun <A, B, C> flipTupled(function: (Pair<A, B>) -> C): (Pair<B, A>) -> C {
-    TODO("Exercise 4 flipTupled is missing!")
-}
+fun <A, B, C> flipTupled(function: (Pair<A, B>) -> C): (Pair<B, A>) -> C = { p -> function(Pair(p.second, p.first)) }
 
 /*
   Part 10:
@@ -264,8 +253,10 @@ fun <A, B, C> flipTupled(function: (Pair<A, B>) -> C): (Pair<B, A>) -> C {
   curried function with the argument switched. A function a -> b -> c after
   flipCurried should be b -> a -> c
  */
-fun <A, B, C> flipCurried(function: (A) -> (B) -> C): (B) -> (A) -> C {
-    TODO("Exercise 4 flipCurried is missing!")
+fun <A, B, C> flipCurried(function: (A) -> (B) -> C): (B) -> (A) -> C = { b ->
+    {
+        a -> function(a)(b)
+    }
 }
 
 

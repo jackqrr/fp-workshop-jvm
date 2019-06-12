@@ -14,7 +14,7 @@ package org.artrev.workshop.fp.part1.exercise3
   function.
  */
 fun composeIntFuns(first: (Int) -> Int, second: (Int) -> Int): (Int) -> Int =
-        TODO("Exercise 3 composeIntFuns is missing!")
+        { x -> second(first(x))}
 
 
 /*
@@ -34,7 +34,7 @@ fun composeIntFuns(first: (Int) -> Int, second: (Int) -> Int): (Int) -> Int =
   - Was there any other way to solve this exercise?
  */
 fun <A, B, C> kompose(f: (A) -> B, g: (B) -> C): (A) -> C =
-        TODO("Exercise 3 kompose is missing!")
+        { x -> g(f(x)) }
 
 /*
   Part 3:
@@ -53,8 +53,11 @@ fun <A, B, C> kompose(f: (A) -> B, g: (B) -> C): (A) -> C =
   - How should the composeAll_1 behave for one argument?
   - How should the composeAll_1 behave for zero arguments?
  */
-fun <A> composeAll_1(vararg functions: (A) -> A): (A) -> A =
-        TODO("Exercise 3 composeAll_1 is missing!")
+fun <A> composeAll_1(vararg functions: (A) -> A): (A) -> A = { x ->
+        var result: A = x
+        functions.forEach { result = it (result) }
+        result
+}
 
 /*
   Part 4:
@@ -67,8 +70,11 @@ fun <A> composeAll_1(vararg functions: (A) -> A): (A) -> A =
   - Can you think of a function that composed with any other function does
     not change the result?
  */
-fun <A> composeAll_2(vararg functions: (A) -> A): (A) -> A =
-        TODO("Exercise 3 composeAll_2 is missing!")
+fun <A> composeAll_2(vararg functions: (A) -> A): (A) -> A {
+        var accumulator: (A) -> A = { it }
+        functions.forEach { function -> accumulator = kompose(accumulator, function) }
+        return accumulator
+}
 
 /*
   Part 5:
@@ -87,7 +93,7 @@ fun <A> composeAll_2(vararg functions: (A) -> A): (A) -> A =
   val fooifiedLength = fooify andThen length
  */
 infix fun <A, B, C> ((A) -> B).andThen(after: (B) -> C): (A) -> C =
-        TODO("Exercise 3 KFunction1.andThen is missing!")
+        { after(this(it)) }
 
 /*
   Part 6:
@@ -106,7 +112,7 @@ infix fun <A, B, C> ((A) -> B).andThen(after: (B) -> C): (A) -> C =
   val fooifiedLength = length compose fooify
  */
 infix fun <A, B, C> ((A) -> B).compose(before: (C) -> A): (C) -> B =
-        TODO("Exercise 3 KFunction1.compose is missing!")
+        { this(before(it))}
 
 /*
   Part 7:
@@ -139,7 +145,7 @@ val getSecureUrl: (String) -> String = { "https://$it" }
   Compose those three functions together to get a third function:
  */
 val getSecureProductPurchaseUrl: (Product) -> String =
-        { TODO("Exercise 3 getSecureProductPurchaseUrl is missing!") }
+        getProductId andThen getPurchaseUri andThen getSecureUrl
 
 fun main(args: Array<String>) {
     // You can play here with the code:

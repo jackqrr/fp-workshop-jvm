@@ -36,9 +36,9 @@ package org.artrev.workshop.fp.part1.exercise2
   Uncomment the tests!
  */
 
-// val f1: (???) -> ??? = ???
-// val f2: (???) -> ??? = ???
-// val f3: (???) -> ??? = ???
+val f1: (Int) -> Int = { x -> x + 1 }
+val f2: (String) -> Int = { s -> s.length }
+val f3: (String) -> String = { s -> s.prependIndent("foo")}
 
 /*
   Part 2:
@@ -63,6 +63,6 @@ package org.artrev.workshop.fp.part1.exercise2
   - Is there a problem with the function str2int?
  */
 
-// val str2int: (???) -> ??? = ???
-// val int2bool: (???) -> ??? = ???
-// val str2bool: (???) -> ??? = ???
+ val str2int: (String) -> Int = { s -> s.toInt() }
+ val int2bool: (Int) -> Boolean = { x -> x == 42}
+ val str2bool: (String) -> Boolean = { s -> int2bool(str2int(s))}

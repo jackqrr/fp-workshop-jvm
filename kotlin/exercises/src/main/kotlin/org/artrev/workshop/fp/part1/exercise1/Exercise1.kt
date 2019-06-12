@@ -62,13 +62,13 @@ package org.artrev.workshop.fp.part1.exercise1
 val f1: (Int) -> Int = { x: Int -> x + 1 }
 
 // y = (x + 2)^2
-val f2: (Int) -> Int = TODO("Exercise 1 f2 function is missing!")
+val f2: (Int) -> Int = { x: Int -> (x + 2) * (x + 2) }
 
 // y = -x + 10
-val f3: (Int) -> Int = TODO("Exercise 1 f3 function is missing!")
+val f3: (Int) -> Int = { x: Int -> -x + 10 }
 
 // y = x^2 + 4x + 1
-val f4: (Int) -> Int = TODO("Exercise 1 f4 function is missing!")
+val f4: (Int) -> Int = { x: Int -> x*x + 4 * x + 1 }
 
 /*
   Part 2:
@@ -76,4 +76,4 @@ val f4: (Int) -> Int = TODO("Exercise 1 f4 function is missing!")
   Create a function from String to Int that returns the size of a given String.
  */
 
-val strlen: (String) -> Int = TODO("Exercise 1 strlen is missing!")
+val strlen: (String) -> Int = { s: String -> s.length }
